@@ -216,6 +216,6 @@ func Full(filename string, name string, format thumbType.ThumbType) (string, err
 }
 
 func GetExecPath() string {
-	path, _ := filepath.Abs("./imageprocessor/processorcommand/ImageMagick-6.9.3/bin/convert")
+	path, _ := filepath.Abs("./imageprocessor/processorcommand/convert")
 	return path
 }
