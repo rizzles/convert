@@ -1,0 +1,14 @@
+{
+    "Port": 8080,
+    "MaxFileSize": 20971520,
+    "HashLength": 7,
+    "UserAgent": "ImageUploader",
+    "Stores" : [
+        {
+            "Type" : "local",
+            "StoreRoot": "/Users/teknogeek/Documents/Code/mandible/imagesStorage",
+            "NamePathRegex" : "^([a-zA-Z0-9])([a-zA-Z0-9]).*",
+            "NamePathMap" : "${ImageSize}/${1}/${2}/${ImageName}"
+        }
+    ]
+}

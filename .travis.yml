@@ -1,0 +1,10 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t imgur/mandible .
+
+script:
+  - docker run -e "COVERALLS_TOKEN=$COVERALLS_TOKEN" -e "TRAVIS_JOB_ID=$TRAVIS_JOB_ID" imgur/mandible /bin/sh -c "cd /go/src/github.com/Imgur/mandible && ./goclean.sh"
