@@ -1,19 +1,11 @@
 package imagestore
 
 import (
-	//"io/ioutil"
 	"log"
 
 	"../config"
 	"github.com/mitchellh/goamz/aws"
 	"github.com/mitchellh/goamz/s3"
-
-	/*
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
-	gcloud "google.golang.org/cloud"
-	gcs "google.golang.org/cloud/storage"
-	*/
 )
 
 type Factory struct {
@@ -33,11 +25,6 @@ func (this *Factory) NewImageStores() ImageStore {
 		case "s3":
 			store = this.NewS3ImageStore(configWrapper)
 			stores = append(stores, store)
-		/*
-		case "gcs":
-			store = this.NewGCSImageStore(configWrapper)
-			stores = append(stores, store)
-		*/
 		case "local":
 			store = this.NewLocalImageStore(configWrapper)
 			stores = append(stores, store)
@@ -75,35 +62,6 @@ func (this *Factory) NewS3ImageStore(conf map[string]string) ImageStore {
 		mapper,
 	)
 }
-
-/*
-func (this *Factory) NewGCSImageStore(conf map[string]string) ImageStore {
-	jsonKey, err := ioutil.ReadFile(conf["KeyFile"])
-	if err != nil {
-		log.Fatal(err)
-	}
-	cloudConf, err := google.JWTConfigFromJSON(
-		jsonKey,
-		gcs.ScopeFullControl,
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	bucket := conf["BucketName"]
-
-	ctx := gcloud.NewContext(conf["AppID"], cloudConf.Client(oauth2.NoContext))
-	mapper := NewNamePathMapper(conf["NamePathRegex"], conf["NamePathMap"])
-
-
-	return NewGCSImageStore(
-		ctx,
-		bucket,
-		conf["StoreRoot"],
-		mapper,
-	)
-}
-*/
 
 func (this *Factory) NewLocalImageStore(conf map[string]string) ImageStore {
 	mapper := NewNamePathMapper(conf["NamePathRegex"], conf["NamePathMap"])

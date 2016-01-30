@@ -1,5 +1,9 @@
 package processorcommand
 
+import (
+	"path/filepath"
+)
+
 func StripMetadata(filename string) error {
 	args := []string{
 		"-all=",
@@ -8,7 +12,9 @@ func StripMetadata(filename string) error {
 		filename,
 	}
 
-	err := runProcessorCommand("exiftool", args)
+	path, _ := filepath.Abs("./imageprocessor/processorcommand/exiftool")
+
+	err := runProcessorCommand(path, args)
 	if err != nil {
 		return err
 	}

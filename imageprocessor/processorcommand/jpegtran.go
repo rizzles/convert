@@ -2,6 +2,7 @@ package processorcommand
 
 import (
 	"fmt"
+	"path/filepath"
 )
 
 func Jpegtran(filename string) (string, error) {
@@ -16,7 +17,9 @@ func Jpegtran(filename string) (string, error) {
 		filename,
 	}
 
-	err := runProcessorCommand("jpegtran", args)
+	path, _ := filepath.Abs("./imageprocessor/processorcommand/jpegtran")
+
+	err := runProcessorCommand(path, args)
 	if err != nil {
 		return "", err
 	}

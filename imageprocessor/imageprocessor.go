@@ -108,20 +108,6 @@ var EverythingStrategy = func(cfg *config.Configuration, file *uploadedfile.Uplo
 	if size > cfg.MaxFileSize {
 		processor = append(processor, &ImageScaler{cfg.MaxFileSize})
 	}
-	/*
-	async := asyncProcessType{}
-
-
-	async = append(async, DuelOCRStratagy())
-	for _, t := range file.GetThumbs() {
-		async = append(async, t)
-	}
-
-
-	if len(async) > 0 {
-		processor = append(processor, async)
-	}
-	*/
 
 	return &ImageProcessor{processor}, nil
 }
