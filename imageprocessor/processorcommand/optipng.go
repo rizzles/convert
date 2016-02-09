@@ -2,6 +2,7 @@ package processorcommand
 
 import (
 	"fmt"
+	"path/filepath"
 )
 
 func Optipng(filename string) (string, error) {
@@ -14,7 +15,9 @@ func Optipng(filename string) (string, error) {
 		filename,
 	}
 
-	err := runProcessorCommand("optipng", args)
+	path, _ := filepath.Abs("./imageprocessor/processorcommand/optipng")
+
+	err := runProcessorCommand(path, args)
 	if err != nil {
 		return "", err
 	}

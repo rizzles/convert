@@ -4,19 +4,51 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"image"
+	"image/color"
+	"image/draw"
+	"image/jpeg"
+	"image/png"
+	"os"
+
 	"../thumbType"
 )
 
 func ConvertToJpeg(filename string) (string, error) {
 	outfile := fmt.Sprintf("%s_jpg", filename)
 
-	args := []string{
-		filename,
-		"-flatten",
-		"JPEG:" + outfile,
+	pngImageFile, err := os.Open(filename)
+	if err != nil {
+		return "", err
 	}
 
-	err := runProcessorCommand(GetExecPath(), args)
+	defer pngImageFile.Close()
+
+	pngSource, err := png.Decode(pngImageFile)
+
+	if err != nil {
+		return "", err
+	}
+
+	jpegImage := image.NewRGBA(pngSource.Bounds())
+
+	draw.Draw(jpegImage, jpegImage.Bounds(), &image.Uniform{color.White}, image.Point{}, draw.Src)
+	draw.Draw(jpegImage, jpegImage.Bounds(), pngSource, pngSource.Bounds().Min, draw.Over)
+
+
+	jpegImageFile, err := os.Create(outfile)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer jpegImageFile.Close()
+
+	var options jpeg.Options
+	options.Quality = 100
+
+	err = jpeg.Encode(jpegImageFile, jpegImage, &options)
+
 	if err != nil {
 		return "", err
 	}
